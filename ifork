@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# source: http://www.pycs.net/bob/weblog/2004/02/23.html#P49
+# Rewritten to use osascript args -> run handler args.
+# Added ability to pass additional initial command and args to new shell.
+#    Bug: Non ASCII characters are unreliable on Tiger.
+#         Tiger's osascript seems to expect args to be encoded in
+#         the system's primary encoding (e.g. MacRoman).
+#         Once in AppleScript, they are handled OK. Terminal sends them
+#         back to the shell as UTF-8.
+
+test $# -eq 0 && set -- : # default command if none given
+osascript - "$(pwd)" "$@" <<\EOF
+on run args
+  set dir to quoted form of (first item of args)
+  set cmd_strs to {}
+  repeat with cmd_str in rest of args
+    set end of cmd_strs to quoted form of cmd_str
+  end
+  set text item delimiters to " "
+  set cmd to cmd_strs as Unicode text
+  tell application "iTerm"
+  	set myterm to (make new terminal)
+  	tell myterm
+  		launch session "Default Session"
+  		set mysession to the last session
+  		tell mysession
+  			write text "cd " & dir & " && " & cmd
+  		end tell
+  	end tell
+  end tell
+end
+EOF
