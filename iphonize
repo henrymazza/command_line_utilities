@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 %x(find ./ -name "#{ARGV[0]}").each do |file|
   file = File.expand_path(file)
   input = file
