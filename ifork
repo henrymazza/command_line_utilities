@@ -28,6 +28,7 @@ on run args
   			write text "cd " & dir & " && " & cmd
   		end tell
   	end tell
+    activate
   end tell
 end
 EOF
