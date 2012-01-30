@@ -6,7 +6,8 @@ message = ""
 
 Locations = {
   "Wi-Aki" => 'Akivest', 
-  "Wi-Mazza" => "HomeSweetHome" 
+  "Wi-Mazza" => "HomeSweetHome",
+  "WiMazza" => "HomeSweetHome" 
 }
 
 wifi = %x(system_profiler SPAirPortDataType).split("\n").each{ |line| line.lstrip! }
